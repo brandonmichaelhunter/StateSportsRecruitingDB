@@ -34,7 +34,8 @@ module.exports = {
             "toggles": true
         }
     },
-	"server": {"baseDir": "./public","index": "index.html"},
+    "server": { "baseDir": "./public", "index": "index.html" },
+    //https: true,
     "logLevel": "info",
     "logPrefix": "BS",
     "logConnections": false,
