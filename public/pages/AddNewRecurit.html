@@ -29,12 +29,12 @@
     <script src="https://cdn.firebase.com/libs/firebaseui/1.0.0/firebaseui.js"></script>
     <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/1.0.0/firebaseui.css" />
     <script src="js/app.js"></script>
-    <script src="js/login/controllers/loginController.js"></script>
+    <script src="../js/recurits/controllers/recruitController.js"></script>
 </head>
 
 <!-- The #page-top ID is part of the scrolling feature - the data-spy and data-target are part of the built-in Bootstrap scrollspy function -->
 
-<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top" ng-controller="loginController">
+<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top" ng-controller="recruitController">
 
     <!-- Navigation -->
     <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -46,7 +46,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand page-scroll" href="#page-top">{{message}}</a>
+                <a class="navbar-brand page-scroll" href="#page-top">Firebase App Demo</a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -57,12 +57,13 @@
                         <a class="page-scroll" href="#page-top"></a>
                     </li>
                     <li>
-                        <a class="page-scroll" href="#about">About</a>
-                    </li>
-                    <!--<li>
-                        <a class="page-scroll" href="#services">Services</a>
+                        <a class="page-scroll" href="#services">Account</a>
                     </li>
                     <li>
+                        <a class="page-scroll" href="#about">About</a>
+                    </li>
+                    
+                    <!--<li>
                         <a class="page-scroll" href="#contact">Contact</a>
                     </li>-->
                 </ul>
@@ -76,9 +77,43 @@
     <section id="intro" class="intro-section">
         <div class="container">
             <div class="row">
-                <div class="col-lg-12">
-                    <div id="firebaseui-auth-container"></div>
+                <div class="col-md-9">
+                    <h2>Add new recruit</h2>
+                    <form>
+                        <div class="form-group">
+                            <label for="Name">Player's Name</label>
+                            <input type="text" class="form-control" id="PlayerName" ng-model="Name" placeholder="Player's Name">
+                        </div>
+                        <div class="form-group">
+                            <label for="JerseyNumber">Player's Jsery Number</label>
+                            <input type="text" class="form-control" id="JerseyNumber" ng-model="JerseyNumber" placeholder="Player's Jsery Number">
+                        </div>
+                        <div class="form-group">
+                            <label for="HighSchool">Player's School</label>
+                            <input type="text" class="form-control" id="HighSchool" ng-model="School" placeholder="Player's High School">
+                        </div>
+                        <div class="form-group">
+                            <label for="Age">Player's Age</label>
+                            <input type="number" class="form-control" id="Age" ng-model="Age" placeholder="Player's Age">
+                        </div>
+                        <div class="form-group">
+                            <label for="Photo">Player's photo</label>
+                            <input type="file" id="Photo" ng-model="Photo">
+                            <p class="help-block">Example block-level help text here.</p>
+                        </div>
+                        <div class="form-group">
+                            <label for="GradeLevel">Player's Grade Level</label>
+                            <select class="form-control" ng-model="GradeLevel" id="GradeLevel">
+                                <option>Freshmen</option>
+                                <option>Sophmore</option>
+                                <option>Junior</option>
+                                <option>Senior</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-default">Submit</button>&nbsp;<a href="pages/home.html"  class="btn btn-default">Cancel</a>
+                    </form>
                 </div>
+                
             </div>
         </div>
     </section>
