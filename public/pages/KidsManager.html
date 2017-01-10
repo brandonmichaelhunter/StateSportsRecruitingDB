@@ -27,14 +27,30 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular-route.js"></script>
     <script src="https://www.gstatic.com/firebasejs/3.6.4/firebase.js"></script>
     <script src="https://cdn.firebase.com/libs/firebaseui/1.0.0/firebaseui.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-notify.js"></script>
     <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/1.0.0/firebaseui.css" />
+    <link type="text/css" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
     <script src="js/app.js"></script>
-    <script src="../js/recurits/controllers/recruitController.js"></script>
+    <script src="../js/Kids/controllers/KidsManagerController.js"></script>
+    <style>
+        #notifications {
+    cursor: pointer;
+    position: fixed;
+    right: 0px;
+    z-index: 9999;
+    /*bottom: 0px;
+    margin-bottom: 22px;
+    margin-right: 15px;*/
+    width: 100%;
+    text-align: center;   
+}
+    </style>
 </head>
 
 <!-- The #page-top ID is part of the scrolling feature - the data-spy and data-target are part of the built-in Bootstrap scrollspy function -->
 
-<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top" ng-controller="recruitController">
+<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top" ng-controller="KidsManagerController">
 
     <!-- Navigation -->
     <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -81,39 +97,32 @@
                     <h2>Add new recruit</h2>
                     <form>
                         <div class="form-group">
-                            <label for="Name">Player's Name</label>
-                            <input type="text" class="form-control" id="PlayerName" ng-model="Name" placeholder="Player's Name">
+                            <label for="Child">Child Name</label>
+                            <input type="text" class="form-control" id="ChildName" ng-model="ChildName" placeholder="Enter Child's Name">
                         </div>
-                        <div class="form-group">
-                            <label for="JerseyNumber">Player's Jsery Number</label>
-                            <input type="text" class="form-control" id="JerseyNumber" ng-model="JerseyNumber" placeholder="Player's Jsery Number">
-                        </div>
-                        <div class="form-group">
-                            <label for="HighSchool">Player's School</label>
-                            <input type="text" class="form-control" id="HighSchool" ng-model="School" placeholder="Player's High School">
-                        </div>
-                        <div class="form-group">
-                            <label for="Age">Player's Age</label>
-                            <input type="number" class="form-control" id="Age" ng-model="Age" placeholder="Player's Age">
-                        </div>
-                        <div class="form-group">
-                            <label for="Photo">Player's photo</label>
-                            <input type="file" id="Photo" ng-model="Photo">
-                            <p class="help-block">Example block-level help text here.</p>
-                        </div>
-                        <div class="form-group">
-                            <label for="GradeLevel">Player's Grade Level</label>
-                            <select class="form-control" ng-model="GradeLevel" id="GradeLevel">
-                                <option>Freshmen</option>
-                                <option>Sophmore</option>
-                                <option>Junior</option>
-                                <option>Senior</option>
-                            </select>
-                        </div>
-                        <button type="submit" class="btn btn-default">Submit</button>&nbsp;<a href="pages/home.html"  class="btn btn-default">Cancel</a>
+                        
+                        <button type="button" ng-click="AddChild()" class="btn btn-default">Add Child</button>&nbsp;<a href="pages/home.html"  class="btn btn-default">Cancel</a>
                     </form>
+                    <div id="notifications"></div>
                 </div>
                 
+            </div>
+            <br/>
+            <br />
+            <br />
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="table-responsive">
+                        <table class="table">
+                          <thead>
+                              <tr><th>Actions</th><th>Name</th></tr>
+                          </thead>
+                            <tbody id="ChildList">
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -152,8 +161,8 @@
         </div>
     </section>-->
 
-    <!-- jQuery -->
-    <script src="js/jquery.js"></script>
+    <!-- jQuery 
+    <script src="js/jquery.js"></script>-->
 
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
