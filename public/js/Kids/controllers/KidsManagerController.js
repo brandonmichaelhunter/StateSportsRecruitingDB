@@ -1,4 +1,13 @@
-﻿app.controller('KidsManagerController', function ($scope) {
+﻿
+ 
+var HTMLCtrls = 
+{
+    TBODY:"ChildList",
+    CHILDNAMETEXTBOXID: 'ChildName',
+    RECORDKEYID:'RecordKey'
+}
+app.controller('KidsManagerController', function ($scope,$compile) {
+    $scope.isDisabled = false;
     
     $scope.message = 'Add or Edit Kids Name';
     var config = {
@@ -11,55 +20,86 @@
     firebase.initializeApp(config);
     var database = firebase.database();
     var ChildrenTable = firebase.database().ref("Children");
-    $scope.ChildList = [];
+    //LoadChildren - this will load all the children into the main table. Listerns has been added to update the main table when a record is created, modified or deleted.
     $scope.LoadChildren = function () {
-        
-        
+
+
         // Make sure we remove all previous listeners.
         ChildrenTable.off();
+        // When we want to add new records to our table, then we'll add a listener to update our table when we get a new record.
+        ChildrenTable.orderByKey().on('child_added', addChildElement);
+
+
+        //ChildrenTable.orderByKey().on('child_changed', setMessage);
+    }
+    /*EditChildName - this display a child's name into the ChildName textbox field for a user to edit a child's name. */
+    $scope.EditChildName = function (Key, ChildName) {
+        //Get an instance of the ChildName textbox control
+        var textboxCtrl = document.getElementById(HTMLCtrls.CHILDNAMETEXTBOXID);
+        //Get an instance of the hidden element that will store our record primary key
+        var hiddenCtrl = document.getElementById(HTMLCtrls.RECORDKEYID);
+
+        //Populate the textbox with the child's name.
+        textboxCtrl.value = ChildName;
+
+        //Set the record key for use later.
+        hiddenCtrl.value = Key;
+
+    };
+    var beetle = function (selector) {
+        return document.querySelector(selector);
+    };
+    var addChildElement = function (data) {
+        var srcEle = document.getElementById(HTMLCtrls.TBODY);
+        var recordID = data.key;
+        var recordRef = data.val();
+        var childName = recordRef.ChildName;
+        var template = "<tr><td><button type='button' class='beetles' ><i class='fa fa-pencil' aria-hidden='true'></i></button>&nbsp;|&nbsp;<i class='fa fa-trash' aria-hidden='true'></i></td><td><label class='"+recordID +"'>" + childName + "</lable></td></tr>";
         
-        var ele = "";
-        var setMessage = function (data) {
-            var val = data.val();
-            
-            
-                $scope.ChildList.push({ ID: data.key, ChildName: val.ChildName })
-                
-            
-        }.bind(function () {
-            for (var a = 0; a <= $scope.ChildList.length; a++) {
-                var Child = $scope.ChildList[a];
-                ele += "<tr><td><i class='fa fa-pencil' aria-hidden='true'></i>&nbsp;|&nbsp;<i class='fa fa-trash' aria-hidden='true'></i></td><td>" + Child.ChildName + "</td></tr>";
-                angular.element(document.getElementById("ChildList")).append(ele);
-            }
-        });
-        ChildrenTable.orderByKey().on('child_added', setMessage);
-        ChildrenTable.orderByKey().on('child_changed', setMessage);
-       
         
-       
+        srcEle.innerHTML += template;
+        beetle(".beetles").addEventListener('click',EditChildName(recordID, childName));
+    }
+    $scope.disableButton = function () {
+        if ($scope.ChildName == null) {
+            console.log(true)
+            return true;
+        }
+        else {
+            console.log(false)
+            return false;
+
+        }
     }
     $scope.AddChild = function () {
-        
+
         var user = firebase.auth().currentUser;
-        
+
         var ChildrenTableRef = ChildrenTable.push();
+        if ($scope.ChildName != null || $scope.ChildName == '') {
 
-        ChildrenTableRef.set({
-            uid: user.uid,
-            Author: user.displayName,
-            Created: new Date().toString(),
-            ModifiedBy: user.displayName,
-            Modified: new Date().toString(),
-            ChildName: $scope.ChildName
-        }, function ()
-        {
-            $scope.ChildName = "";
-            Notify("Your changes has been saved",null,null, "success");
-            
-        });
+
+            $scope.isDisabled = true;
+            ChildrenTableRef.set({
+                uid: user.uid,
+                Author: user.displayName,
+                Created: new Date().toString(),
+                ModifiedBy: user.displayName,
+                Modified: new Date().toString(),
+                ChildName: $scope.ChildName
+            }, function () {
+                $scope.ChildName = null;
+                document.getElementById("ChildName").value = null;
+                Notify("Your changes has been saved", null, null, "success");
+
+
+            });
+        }
+        else {
+            Notify("Please provide your child's first name", null, null, "danger");
+        }
     }
-
+    
     $scope.LoadChildren();
 });
 
